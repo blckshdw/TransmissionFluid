@@ -52,6 +52,7 @@
     <Compile Include="Arguments\Session.cs" />
     <Compile Include="Arguments\SessionStatistics.cs" />
     <Compile Include="Client.cs" />
+    <Compile Include="LoggingHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransmissionRequest.cs" />
     <Compile Include="TransmissionResponse.cs" />

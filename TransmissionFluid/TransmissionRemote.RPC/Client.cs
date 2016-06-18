@@ -48,8 +48,12 @@ namespace TransmissionRemote.RPC
         }
         private async Task<TransmissionResponse> SendRequestAsync(TransmissionRequest data)
         {
+#if DEBUG
+            using (var client = new HttpClient(new LoggingHandler(new HttpClientHandler())))
+#else
             using (var client = new HttpClient())
-            {            
+#endif
+            {
                 client.BaseAddress = new Uri(String.Format("http://{0}:{1}/", this.Host, this.Port));
                 client.Timeout = TimeSpan.FromSeconds(60);
                 client.DefaultRequestHeaders.Accept.Clear();
