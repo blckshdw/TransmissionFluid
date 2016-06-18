@@ -102,5 +102,19 @@ namespace TransmissionRemote.RPC
             return result.Deserialize<Session>();
         }
 
+        public SessionStatistics GetSessionStats()
+        {
+            TransmissionRequest request = new TransmissionRequest { Method = "session-stats" };
+            var result = SendRequest(request);
+            return result.Deserialize<SessionStatistics>();
+        }
+
+        public async Task<SessionStatistics> GetSessionStatsAsync()
+        {
+            TransmissionRequest request = new TransmissionRequest { Method = "session-stats" };
+            var result = await SendRequestAsync(request);
+            return result.Deserialize<SessionStatistics>();
+        }
+
     }
 }

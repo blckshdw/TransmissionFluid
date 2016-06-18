@@ -18,13 +18,12 @@ namespace TransmissionRemote.RPC.Tests
         }
 
         [TestMethod]
-        public async void GetSessionAsync()
+        public void GetSessionStats()
         {
-
             var client = new Client(Host);
-            var result = await client.GetSessionAsync();
+            var result = client.GetSessionStats();
 
-            Assert.IsTrue(result.RpcVersion > 0);
+            Assert.IsTrue(result.TorrentCount > 0);
         }
 
     }
