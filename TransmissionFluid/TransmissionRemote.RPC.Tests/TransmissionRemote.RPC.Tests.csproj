@@ -58,6 +58,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TransmissionRemote.RPC\TransmissionRemote.RPC.csproj">
+      <Project>{83A240A8-BF1D-49CE-85F0-42197CE7C209}</Project>
+      <Name>TransmissionRemote.RPC</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>
