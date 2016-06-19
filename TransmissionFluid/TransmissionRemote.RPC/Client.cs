@@ -22,6 +22,7 @@ namespace TransmissionRemote.RPC
 
         private const string X_SESSION_HEADER = "X-Transmission-Session-Id";
         private string[] _AllFields = new string[] { "activityDate", "addedDate", "bandwidthPriority", "comment", "corruptEver", "creator", "dateCreated", "desiredAvailable", "doneDate", "downloadDir", "downloadedEver", "downloadLimit", "downloadLimited", "error", "errorString", "eta", "etaIdle", "files", "fileStats", "hashString", "haveUnchecked", "haveValid", "honorsSessionLimits", "id", "isFinished", "isPrivate", "isStalled", "leftUntilDone", "magnetLink", "manualAnnounceTime", "maxConnectedPeers", "metadataPercentComplete", "name", "peer-limit", "peers", "peersConnected", "peersFrom", "peersGettingFromUs", "peersSendingToUs", "percentDone", "pieces", "pieceCount", "pieceSize", "priorities", "queuePosition", "rateDownload", "rateUpload", "recheckProgress", "secondsDownloading", "secondsSeeding", "seedIdleLimit", "seedIdleMode", "seedRatioLimit", "seedRatioMode", "sizeWhenDone", "startDate", "status", "trackers", "trackerStats", "totalSize", "torrentFile", "uploadedEver", "uploadLimit", "uploadLimited", "uploadRatio", "wanted", "webseeds", "webseedsSendingToUs" };
+        private string[] _SummaryFields = new string[] { "id", "name", "status", "errorString", "announceResponse", "recheckProgress", "sizeWhenDone", "leftUntilDone", "rateDownload", "rateUpload", "trackerStats", "metadataPercentComplete", "totalSize", "status", "peersSendingToUs", "seeders", "peersGettingFromUs", "leechers", "eta", "uploadRatio", "addedDate", "doneDate" };
 
         public Client() {
             var rnd = new Random();
@@ -127,6 +128,108 @@ namespace TransmissionRemote.RPC
         public async Task<Session> SetSessionAsync(Session settings)
         {
             throw new NotImplementedException();
+        }
+        #endregion
+
+        #region -- Torrents --
+
+        public IEnumerable<Torrent> GetRecentTorrents()
+        {
+            TransmissionRequest request = new TransmissionRequest("torrent-get");
+            request.Arguments = new Dictionary<string, object>();
+            request.Arguments.Add("ids", "recently-active");
+            request.Arguments.Add("fields", this._SummaryFields);
+            var result = SendRequest(request);
+            var items = result.Deserialize<TorrentCollection>().Torrents;
+            
+            return items;
+        }
+
+        public async Task<IEnumerable<Torrent>> GetRecentTorrentsAsync()
+        {
+            TransmissionRequest request = new TransmissionRequest("torrent-get");
+            request.Arguments = new Dictionary<string, object>();
+            request.Arguments.Add("ids", "recently-active");
+            request.Arguments.Add("fields", this._SummaryFields);
+            var result = await SendRequestAsync(request);
+            var items = result.Deserialize<TorrentCollection>().Torrents;
+
+            return items;
+        }
+
+        public Torrent GetTorrent(int Id)
+        {
+            int[] Ids = new int[1] { Id };
+            var result = GetTorrent(Ids);
+            return result.FirstOrDefault();
+        }
+        public IEnumerable<Torrent> GetTorrent(int[] Ids)
+        {
+            TransmissionRequest request = new TransmissionRequest("torrent-get");
+            request.Arguments = new Dictionary<string, object>();
+            request.Arguments.Add("ids", Ids);
+            request.Arguments.Add("fields", this._AllFields);
+            var result = SendRequest(request);
+            var items = result.Deserialize<TorrentCollection>().Torrents;
+            
+            return items;
+        }
+
+        public async Task<Torrent> GetTorrentAsync(int Id)
+        {
+            int[] Ids = new int[1] { Id };
+            var result = await GetTorrentAsync(Ids);
+            return result.FirstOrDefault();
+        }
+        public async Task<IEnumerable<Torrent>> GetTorrentAsync(int[] Ids)
+        {
+            TransmissionRequest request = new TransmissionRequest("torrent-get");
+            request.Arguments = new Dictionary<string, object>();
+            request.Arguments.Add("ids", Ids);
+            request.Arguments.Add("fields", this._AllFields);
+            var result = await SendRequestAsync(request);
+            var items = result.Deserialize<TorrentCollection>().Torrents;
+
+            return items;
+        }
+
+        #endregion
+
+        #region -- Torrent Actions --
+        public TransmissionResponse StopTorrent(int[] ids)
+        {
+            TransmissionRequest request = new TransmissionRequest("torrent-stop");
+            request.Arguments = new Dictionary<string, object>();
+            request.Arguments.Add("ids", ids);
+            var result = SendRequest(request);
+            return result;
+        }
+
+        public TransmissionResponse StartTorrent(int[] ids)
+        {
+            TransmissionRequest request = new TransmissionRequest("torrent-start");
+            request.Arguments = new Dictionary<string, object>();
+            request.Arguments.Add("ids", ids);
+            var result = SendRequest(request);
+            return result;
+        }
+
+        public TransmissionResponse VerifyTorrent(int[] ids)
+        {
+            TransmissionRequest request = new TransmissionRequest("torrent-verify");
+            request.Arguments = new Dictionary<string, object>();
+            request.Arguments.Add("ids", ids);
+            var result = SendRequest(request);
+            return result;
+        }
+
+        public TransmissionResponse ReannounceTorrent(int[] ids)
+        {
+            TransmissionRequest request = new TransmissionRequest("torrent-reannounce");
+            request.Arguments = new Dictionary<string, object>();
+            request.Arguments.Add("ids", ids);
+            var result = SendRequest(request);
+            return result;
         }
         #endregion
 
