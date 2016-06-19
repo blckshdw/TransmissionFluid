@@ -55,6 +55,11 @@ namespace TransmissionFluid.ViewModel
             }
         }
 
+        public Settings Settings
+        {
+            get { return SettingsManager.Instance.Settings; }
+        }
+
         /// <summary>
         /// Cleans up all the resources.
         /// </summary>
