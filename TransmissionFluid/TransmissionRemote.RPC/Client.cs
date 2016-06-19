@@ -91,7 +91,7 @@ namespace TransmissionRemote.RPC
 
         }
 
-
+        #region -- Session -- 
         public Session GetSession()
         {
             TransmissionRequest request = new TransmissionRequest { Method = "session-get" };
@@ -119,6 +119,16 @@ namespace TransmissionRemote.RPC
             var result = await SendRequestAsync(request);
             return result.Deserialize<SessionStatistics>();
         }
+
+        public Session SetSession(Session settings)
+        {
+            throw new NotImplementedException();
+        }
+        public async Task<Session> SetSessionAsync(Session settings)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
 
     }
 }
