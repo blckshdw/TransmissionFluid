@@ -21,14 +21,29 @@ namespace TransmissionFluid
         protected override void OnStartup(StartupEventArgs e)
         {
             bool aIsNewInstance = false;
-            _Mutex = new Mutex(true, "MyWPFApplication", out aIsNewInstance);
+            _Mutex = new Mutex(true, "TransmissionFluid", out aIsNewInstance);
             if (!aIsNewInstance)
             {
                 MessageBox.Show("Already an instance is running...");
                 App.Current.Shutdown();
             }
-            
+
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length > 1)
+            {
+                AddTorrentView win = new AddTorrentView();
+                win.Show(args[1]);
+                win.Activate();
+
+                AddTorrentView win2= new AddTorrentView();
+                win2.Show(args[1]);
+            }
+
             SettingsManager.Instance.LoadSettings();
+            //TODO: Add RPC Session DownloadDir to list.
+            string defaultDir = @"/home/";
+            if (!SettingsManager.Instance.Settings.RecentFolders.Contains(defaultDir))
+                SettingsManager.Instance.Settings.RecentFolders.Add(defaultDir);
 
             base.OnStartup(e);
         }

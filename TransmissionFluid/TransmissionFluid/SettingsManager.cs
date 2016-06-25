@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -21,6 +22,8 @@ namespace TransmissionFluid
         SettingsManager()
         {
             this.Settings = new Settings();
+            this.Settings.RecentFolders = new List<string>();
+            this.Settings.RecentFolders.Add("test");
         }
 
         public static SettingsManager Instance
@@ -111,6 +114,13 @@ namespace TransmissionFluid
         {
             get { return _MainWindowWidth; }
             set { Set(ref _MainWindowWidth, value); }
+        }
+
+        private List<string> _RecentFolders;
+        public List<string> RecentFolders
+        {
+            get { return _RecentFolders; }
+            set { Set(ref _RecentFolders, value); }
         }
     }
 }

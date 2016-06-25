@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TransmissionRemote.RPC.Arguments;
+using TransmissionRemote.RPC.Exceptions;
 
 namespace TransmissionRemote.RPC
 {
@@ -233,5 +234,24 @@ namespace TransmissionRemote.RPC
         }
         #endregion
 
+
+        public TorrentAdded AddTorrent(AddTorrentArguments args)
+        {
+            TransmissionRequest request = new TransmissionRequest("torrent-add");
+            request.Arguments = new Dictionary<string, object>();
+            request.Arguments = args.ToDictionary();
+            var result = SendRequest(request);
+            if (result.Result == "success")
+            {
+                var items = result.Deserialize<TorrentAddedArguments>();
+                return items.TorrentAdded;
+            }
+            else if (result.Result == "duplicate torrent")
+            {
+                throw new DuplicateTorrentException();
+            }
+
+            return null;
+        }
     }
 }

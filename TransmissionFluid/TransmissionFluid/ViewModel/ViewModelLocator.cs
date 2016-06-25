@@ -12,6 +12,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using System;
 using TransmissionFluid.Model;
 
 namespace TransmissionFluid.ViewModel
@@ -39,6 +40,7 @@ namespace TransmissionFluid.ViewModel
             }
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<AddTorrentViewModel>();
         }
 
         /// <summary>
@@ -58,6 +60,11 @@ namespace TransmissionFluid.ViewModel
         public Settings Settings
         {
             get { return SettingsManager.Instance.Settings; }
+        }
+
+        public AddTorrentViewModel AddTorrent
+        {
+            get { return ServiceLocator.Current.GetInstance<AddTorrentViewModel>(Guid.NewGuid().ToString()); }
         }
 
         /// <summary>
