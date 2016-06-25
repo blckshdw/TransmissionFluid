@@ -94,6 +94,7 @@
     <Compile Include="Model\DataService.cs" />
     <Compile Include="Model\IDataService.cs" />
     <Compile Include="Model\TorrentFileName.cs" />
+    <Compile Include="Model\TransmissionServer.cs" />
     <Compile Include="SettingsManager.cs" />
     <Compile Include="ThemedWindow.cs" />
     <Compile Include="ViewModel\AddTorrentViewModel.cs" />
@@ -170,6 +171,9 @@
       <Project>{83a240a8-bf1d-49ce-85f0-42197ce7c209}</Project>
       <Name>TransmissionRemote.RPC</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\1466900895_download off.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

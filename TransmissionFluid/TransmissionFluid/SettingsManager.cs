@@ -84,9 +84,13 @@ namespace TransmissionFluid
                 XmlSerializer ser = new XmlSerializer(this.Settings.GetType());
                 using (var fs = new FileStream(path + "\\" + AppName + "\\Settings.dat", FileMode.Open))
                 {
-                    var settings = (Settings)ser.Deserialize(fs);
-                    this.Settings = settings;
-                    RaisePropertyChanged("Settings");
+                    try
+                    {
+                        var settings = (Settings)ser.Deserialize(fs);
+                        this.Settings = settings;
+                        RaisePropertyChanged("Settings");
+                    }
+                    catch (InvalidOperationException ex) { }
 
                 }
             }

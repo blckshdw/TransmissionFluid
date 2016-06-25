@@ -17,7 +17,7 @@
         RenderOptions.BitmapScalingMode="NearestNeighbor"        
         ResizeMode="NoResize" 
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
-        WindowStartupLocation="CenterScreen" >
+        WindowStartupLocation="CenterScreen" Icon="Resources/1466900895_download off.ico" >
 
     <Window.Resources>
         <Converters:HumanReadableSizeConverter x:Key="HumanReadableSizeConverter"/>
